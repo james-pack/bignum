@@ -11,6 +11,6 @@ int main() {
   //   std::cout << to_string(n) << ": " << to_string(result) << "\n";
   // }
 
-  volatile BigNum result{fib(400'000)};
+  volatile BigNum result{fib(305'000)};
   return 0;
 }

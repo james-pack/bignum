@@ -8,7 +8,9 @@ namespace jp::math {
 
 class BigNum final {
  private:
-  using StoreT = uint64_t;
+  using StoreT = uint_fast64_t;
+  using AdditionT = unsigned __int128;
+  static constexpr size_t STORE_SHIFT_BITS{64};
 
   std::vector<StoreT> value_{1, 0};
 
@@ -25,7 +27,7 @@ class BigNum final {
   BigNum& operator=(const BigNum&) = default;
   BigNum& operator=(BigNum&&) = default;
 
-  BigNum(uint64_t v) : value_(1, v) {}
+  BigNum(unsigned long v) : value_(1, v) {}
 
   const StoreT& operator[](size_t index) const { return value_.at(value_.size() - index - 1); }
   StoreT& operator[](size_t index) { return value_.at(value_.size() - index - 1); }
@@ -36,15 +38,15 @@ class BigNum final {
     BigNum result{rhs};
     result.upsize(size());
 
-    StoreT carry{0};
+    AdditionT v{0};
     for (size_t i = 0; i < size(); ++i) {
-      carry = __builtin_add_overflow(result[i], carry, &result[i]);
-      carry += __builtin_add_overflow(result[i], value_[i], &result[i]);
+      v += static_cast<AdditionT>(result.value_[i]) + static_cast<AdditionT>(value_[i]);
+      result.value_[i] = static_cast<StoreT>(v);
+      v >>= STORE_SHIFT_BITS;
     }
 
-    if (carry > 0) {
-      result.upsize(result.size() + 1);
-      result[result.size() - 1] = 1;
+    if (v > 0) {
+      result.value_.push_back(static_cast<StoreT>(v));
     }
 
     return result;

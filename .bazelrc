@@ -1,26 +1,11 @@
 # Defaults for all builds
 build --enable_platform_specific_config
 build --config=c++17
-build --config=platform_build
-
-build:linux --platforms=//platforms:linux_x86_64_general
 
 # Settings for different C++ dialects
 build:c++17 --cxxopt -std=c++17
 build:c++20 --cxxopt -std=c++20
 build:c++2a --cxxopt -std=c++2a
-
-# Setting to enable platform builds.
-build:platform_build --incompatible_enable_cc_toolchain_resolution
-
-build:teensy40 --platforms=//platforms:teensy40
-build:teensy40 --cpu=armv7e-mf --crosstool_top=//toolchain/teensy:gcc_toolchain --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
-
-build:teensy41 --platforms=//platforms:teensy41
-build:teensy41 --cpu=armv7e-mf --crosstool_top=//toolchain/teensy:gcc_toolchain --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
-
-build:nucleo_h7 --platforms=//platforms:nucleo_h7
-build:nucleo_h7 --cpu=armv7e-mf --crosstool_top=//toolchain/nucleo_h7:gcc_toolchain --host_crosstool_top=@bazel_tools//tools/cpp:toolchain
 
 # Address sanitizer
 # CC=clang bazel build --config asan

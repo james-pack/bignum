@@ -13,9 +13,6 @@ rules_proto_toolchains()
 load("@rules_cc//cc:repositories.bzl", "rules_cc_dependencies")
 rules_cc_dependencies()
 
-load("//toolchain:toolchain.bzl", "register_all_toolchains")
-register_all_toolchains()
-
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(

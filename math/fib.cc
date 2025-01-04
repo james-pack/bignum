@@ -11,7 +11,7 @@ BigUint fib(unsigned long n) {
   while (n-- > 0) {
     BigUint temp{std::move(a)};
     a = std::move(b);
-    b = temp + a;
+    b = std::move(temp) + a;
   }
 
   return a;

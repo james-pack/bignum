@@ -11,7 +11,7 @@ int main() {
   //   std::cout << n << ": " << to_string(result) << "\n";
   // }
 
-  BigUint result{fib(440'000)};
+  BigUint result{fib(500'000)};
   // BigUint result{fib(1'000'000)};
   // std::cout << to_string(result) << "\n";
   // std::cout << "result.size(): " << result.size() << "\n";

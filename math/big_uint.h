@@ -20,6 +20,9 @@ class BigUint final {
     }
   }
 
+  friend BigUint operator+(const BigUint& lhs, const BigUint& rhs);
+  friend BigUint operator+(BigUint&& lhs, const BigUint& rhs);
+
  public:
   BigUint() = default;
 
@@ -35,25 +38,44 @@ class BigUint final {
   StoreT& operator[](size_t index) { return value_.at(value_.size() - index - 1); }
 
   size_t size() const { return value_.size(); }
-
-  BigUint operator+(const BigUint& rhs) const {
-    BigUint result{*this};
-
-    result.upsize(rhs.value_.size(), rhs.value_.capacity());
-
-    StoreT carry{0};
-    for (size_t i = 0; i < rhs.size(); ++i) {
-      carry = __builtin_add_overflow(result.value_[i], carry, &result.value_[i]);
-      carry += __builtin_add_overflow(result.value_[i], rhs.value_[i], &result.value_[i]);
-    }
-
-    if (carry > 0) {
-      result.value_.push_back(carry);
-    }
-
-    return result;
-  }
 };
+
+inline BigUint operator+(const BigUint& lhs, const BigUint& rhs) {
+  BigUint result{};
+
+  result.upsize(std::max(lhs.value_.size(), rhs.value_.size()),
+                std::max(lhs.value_.capacity(), rhs.value_.capacity()));
+
+  BigUint::StoreT carry{0};
+  for (size_t i = 0; i < rhs.size(); ++i) {
+    carry = __builtin_add_overflow(lhs.value_[i], carry, &result.value_[i]);
+    carry += __builtin_add_overflow(result.value_[i], rhs.value_[i], &result.value_[i]);
+  }
+
+  if (carry > 0) {
+    result.value_.push_back(carry);
+  }
+
+  return result;
+}
+
+inline BigUint operator+(BigUint&& lhs, const BigUint& rhs) {
+  BigUint result{std::move(lhs)};
+
+  result.upsize(rhs.value_.size(), rhs.value_.capacity());
+
+  BigUint::StoreT carry{0};
+  for (size_t i = 0; i < rhs.size(); ++i) {
+    carry = __builtin_add_overflow(result.value_[i], carry, &result.value_[i]);
+    carry += __builtin_add_overflow(result.value_[i], rhs.value_[i], &result.value_[i]);
+  }
+
+  if (carry > 0) {
+    result.value_.push_back(carry);
+  }
+
+  return result;
+}
 
 inline std::string to_string(const BigUint& n) {
   // TODO(james): This is a quick and dirty form of this function for debug info. Either remove or

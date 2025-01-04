@@ -16,6 +16,6 @@ BigNum fib(unsigned long n) {
 }
 
 int main() {
-  volatile BigNum result{fib(n)};
+  volatile BigNum result{fib(3)};
   return 0;
 }

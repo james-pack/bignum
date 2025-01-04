@@ -7,11 +7,10 @@
 namespace jp::math {
 
 class BigNum final {
- private:
+ public:
   using StoreT = uint_fast64_t;
-  using AdditionT = unsigned __int128;
-  static constexpr size_t STORE_SHIFT_BITS{64};
 
+ private:
   std::vector<StoreT> value_{1, 0};
 
   void upsize(size_t s) {
@@ -38,15 +37,14 @@ class BigNum final {
     BigNum result{rhs};
     result.upsize(size());
 
-    AdditionT v{0};
+    StoreT carry{0};
     for (size_t i = 0; i < size(); ++i) {
-      v += static_cast<AdditionT>(result.value_[i]) + static_cast<AdditionT>(value_[i]);
-      result.value_[i] = static_cast<StoreT>(v);
-      v >>= STORE_SHIFT_BITS;
+      carry = __builtin_add_overflow(result.value_[i], carry, &result.value_[i]);
+      carry += __builtin_add_overflow(result.value_[i], value_[i], &result.value_[i]);
     }
 
-    if (v > 0) {
-      result.value_.push_back(static_cast<StoreT>(v));
+    if (carry > 0) {
+      result.value_.push_back(carry);
     }
 
     return result;
@@ -59,7 +57,8 @@ inline std::string to_string(const BigNum& n) {
   using std::to_string;
   std::string result{};
   for (size_t i = 0; i < n.size(); ++i) {
-    result.append(to_string(n[n.size() - i - 1]));
+    BigNum::StoreT value{n[n.size() - i - 1]};
+    result.append(to_string(value));
     result.append(" ");
   }
   return result;

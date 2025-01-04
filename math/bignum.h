@@ -51,7 +51,7 @@ class BigNum final {
   }
 };
 
-std::string to_string(const BigNum& n) {
+inline std::string to_string(const BigNum& n) {
   // TODO(james): This is a quick and dirty form of this function for debug info. Either remove or
   // fix.
   using std::to_string;

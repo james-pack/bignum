@@ -1,7 +1,11 @@
 cc_library(
     name = "math",
+    srcs = [
+        "fib.cc",
+    ],
     hdrs = [
         "bignum.h",
+        "fib.h",
     ],
     visibility = ["//visibility:public"],
 )
@@ -17,8 +21,19 @@ cc_test(
     ],
 )
 
+cc_test(
+    name = "fib_test",
+    srcs = [
+        "fib_test.cc",
+    ],
+    deps = [
+        ":math",
+        "//third_party/gtest",
+    ],
+)
+
 cc_binary(
     name = "fib",
-    srcs = ["fib.cc"],
+    srcs = ["fib_main.cc"],
     deps = [":math"],
 )

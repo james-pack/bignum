@@ -1,6 +1,6 @@
 #include "math/bignum.h"
 
-using namespace jp::math;
+namespace jp::math {
 
 BigNum fib(unsigned long n) {
   BigNum a{0UL};
@@ -15,7 +15,4 @@ BigNum fib(unsigned long n) {
   return a;
 }
 
-int main() {
-  volatile BigNum result{fib(3)};
-  return 0;
-}
+}  // namespace jp::math

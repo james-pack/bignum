@@ -1,5 +1,7 @@
 #include "math/bignum.h"
 
+#include <limits>
+
 #include "gtest/gtest.h"
 
 namespace jp::math {
@@ -20,6 +22,14 @@ TEST(BigNumTest, CanAdd) {
   BigNum one{1};
   BigNum sum{zero + one};
   EXPECT_EQ(1, sum[0]);
+}
+
+TEST(BigNumTest, CanAddWithCarry) {
+  BigNum max{std::numeric_limits<uint64_t>::max()};
+  BigNum one{1};
+  BigNum sum{max + one};
+  EXPECT_EQ(0, sum[0]);
+  EXPECT_EQ(1, sum[1]);
 }
 
 }  // namespace jp::math

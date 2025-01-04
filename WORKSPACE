@@ -1,4 +1,4 @@
-workspace(name = "com_gitlab_jamespack_bignum")
+workspace(name = "com_github_jamespack_bignum")
 
 load("//third_party:deps.bzl", "load_dependencies")
 load_dependencies()

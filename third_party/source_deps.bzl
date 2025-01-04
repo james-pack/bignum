@@ -59,9 +59,9 @@ def load_source_dependencies():
     if not native.existing_rule("com_github_google_benchmark"):
         http_archive(
             name = "com_github_google_benchmark",
-            sha256 = "2a778d821997df7d8646c9c59b8edb9a573a6e04c534c01892a40aa524a7b68c",
-            strip_prefix = "benchmark-bf585a2789e30585b4e3ce6baf11ef2750b54677",
-            urls = ["https://github.com/google/benchmark/archive/bf585a2789e30585b4e3ce6baf11ef2750b54677.zip"],
+            sha256 = "8a63c9c6adf9e7ce8d0d81f251c47de83efb5e077e147d109fa2045daac8368b",
+            strip_prefix = "benchmark-1.9.1",
+            urls = ["https://github.com/google/benchmark/archive/v1.9.1.zip"],
         )
 
     if not native.existing_rule("com_github_gflags_gflags"):

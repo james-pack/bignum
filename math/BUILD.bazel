@@ -38,3 +38,16 @@ cc_binary(
     srcs = ["fib_main.cc"],
     deps = [":math"],
 )
+
+cc_test(
+    name = "fib_benchmark",
+    srcs = ["fib_benchmark.cc"],
+    tags = [
+        "external",
+        "manual",
+    ],
+    deps = [
+        ":math",
+        "//third_party/benchmark",
+    ],
+)

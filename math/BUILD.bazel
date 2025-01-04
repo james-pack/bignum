@@ -1,0 +1,24 @@
+cc_library(
+    name = "math",
+    hdrs = [
+        "bignum.h",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "bignum_test",
+    srcs = [
+        "bignum_test.cc",
+    ],
+    deps = [
+        ":math",
+        "//third_party/gtest",
+    ],
+)
+
+cc_binary(
+    name = "fib",
+    srcs = ["fib.cc"],
+    deps = [":math"],
+)

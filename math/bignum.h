@@ -11,17 +11,20 @@ class BigNum final {
   using StoreT = uint_fast64_t;
 
  private:
-  std::vector<StoreT> value_{1, 0};
+  std::vector<StoreT> value_{0};
 
-  void upsize(size_t s) {
-    if (value_.size() < s) {
-      value_.resize(s);
+  void upsize(size_t size, size_t capacity) {
+    value_.reserve(capacity);
+    if (value_.size() < size) {
+      value_.resize(size);
     }
   }
 
  public:
   BigNum() = default;
+
   BigNum(const BigNum&) = default;
+
   BigNum(BigNum&&) = default;
   BigNum& operator=(const BigNum&) = default;
   BigNum& operator=(BigNum&&) = default;
@@ -34,13 +37,14 @@ class BigNum final {
   size_t size() const { return value_.size(); }
 
   BigNum operator+(const BigNum& rhs) const {
-    BigNum result{rhs};
-    result.upsize(size());
+    BigNum result{*this};
+
+    result.upsize(rhs.value_.size(), rhs.value_.capacity());
 
     StoreT carry{0};
-    for (size_t i = 0; i < size(); ++i) {
+    for (size_t i = 0; i < rhs.size(); ++i) {
       carry = __builtin_add_overflow(result.value_[i], carry, &result.value_[i]);
-      carry += __builtin_add_overflow(result.value_[i], value_[i], &result.value_[i]);
+      carry += __builtin_add_overflow(result.value_[i], rhs.value_[i], &result.value_[i]);
     }
 
     if (carry > 0) {
@@ -57,7 +61,7 @@ inline std::string to_string(const BigNum& n) {
   using std::to_string;
   std::string result{};
   for (size_t i = 0; i < n.size(); ++i) {
-    BigNum::StoreT value{n[n.size() - i - 1]};
+    BigNum::StoreT value{n[i]};
     result.append(to_string(value));
     result.append(" ");
   }

@@ -1,13 +1,15 @@
-#include "math/bignum.h"
+#include "math/fib.h"
+
+#include "math/big_uint.h"
 
 namespace jp::math {
 
-BigNum fib(unsigned long n) {
-  BigNum a{0UL};
-  BigNum b{1UL};
+BigUint fib(unsigned long n) {
+  BigUint a{0UL};
+  BigUint b{1UL};
 
   while (n-- > 0) {
-    BigNum temp{std::move(a)};
+    BigUint temp{std::move(a)};
     a = std::move(b);
     b = temp + a;
   }

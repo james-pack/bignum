@@ -4,16 +4,16 @@ cc_library(
         "fib.cc",
     ],
     hdrs = [
-        "bignum.h",
+        "big_uint.h",
         "fib.h",
     ],
     visibility = ["//visibility:public"],
 )
 
 cc_test(
-    name = "bignum_test",
+    name = "big_uint_test",
     srcs = [
-        "bignum_test.cc",
+        "big_uint_test.cc",
     ],
     deps = [
         ":math",

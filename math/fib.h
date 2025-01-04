@@ -1,7 +1,9 @@
-#include "math/bignum.h"
+#pragma once
+
+#include "math/big_uint.h"
 
 namespace jp::math {
 
-BigNum fib(unsigned long n);
+BigUint fib(unsigned long n);
 
 }  // namespace jp::math

@@ -6,7 +6,7 @@
 
 namespace jp::math {
 
-class BigNum final {
+class BigUint final {
  public:
   using StoreT = uint_fast64_t;
 
@@ -21,23 +21,23 @@ class BigNum final {
   }
 
  public:
-  BigNum() = default;
+  BigUint() = default;
 
-  BigNum(const BigNum&) = default;
+  BigUint(const BigUint&) = default;
 
-  BigNum(BigNum&&) = default;
-  BigNum& operator=(const BigNum&) = default;
-  BigNum& operator=(BigNum&&) = default;
+  BigUint(BigUint&&) = default;
+  BigUint& operator=(const BigUint&) = default;
+  BigUint& operator=(BigUint&&) = default;
 
-  BigNum(unsigned long v) : value_(1, v) {}
+  BigUint(unsigned long v) : value_(1, v) {}
 
   const StoreT& operator[](size_t index) const { return value_.at(value_.size() - index - 1); }
   StoreT& operator[](size_t index) { return value_.at(value_.size() - index - 1); }
 
   size_t size() const { return value_.size(); }
 
-  BigNum operator+(const BigNum& rhs) const {
-    BigNum result{*this};
+  BigUint operator+(const BigUint& rhs) const {
+    BigUint result{*this};
 
     result.upsize(rhs.value_.size(), rhs.value_.capacity());
 
@@ -55,13 +55,13 @@ class BigNum final {
   }
 };
 
-inline std::string to_string(const BigNum& n) {
+inline std::string to_string(const BigUint& n) {
   // TODO(james): This is a quick and dirty form of this function for debug info. Either remove or
   // fix.
   using std::to_string;
   std::string result{};
   for (size_t i = 0; i < n.size(); ++i) {
-    BigNum::StoreT value{n[i]};
+    BigUint::StoreT value{n[i]};
     result.append(to_string(value));
     result.append(" ");
   }

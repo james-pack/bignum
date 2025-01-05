@@ -1,6 +1,7 @@
 cc_library(
     name = "math",
     srcs = [
+        "big_uint.cc",
         "fib.cc",
     ],
     hdrs = [
